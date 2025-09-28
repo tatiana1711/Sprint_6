@@ -55,7 +55,7 @@ class TestOrder:
         main_page = MainPage(driver)
         main_page.open()
         main_page.click_scooter_logo()
-        assert main_page.driver.current_url == MAIN_PAGE_URL
+        assert main_page.get_current_url() == MAIN_PAGE_URL
 
     @allure.feature('Навигация')
     @allure.story('Переход на Дзен через логотип Яндекса')
@@ -63,17 +63,17 @@ class TestOrder:
         main_page = MainPage(driver)
         main_page.open()
         
-        current_handles = main_page.driver.window_handles
+        current_handles = main_page.get_window_handles()
         main_page.click_yandex_logo()
         
         main_page.wait_for_new_window(current_handles)
-        original_window = main_page.driver.current_window_handle
+        original_window = main_page.get_current_window_handle()
         main_page.switch_to_new_window()
         
         main_page.wait_for_page_load()
-        current_url = main_page.driver.current_url
+        current_url = main_page.get_current_url()
         
         assert "dzen.ru" in current_url or "yandex.ru" in current_url
         
-        main_page.driver.close()
-        main_page.driver.switch_to.window(original_window)
+        main_page.close_current_window()
+        main_page.switch_to_window(original_window)

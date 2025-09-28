@@ -7,7 +7,8 @@ import allure
 class BasePage:
     def __init__(self, driver):
         self.driver = driver
-        self.wait = WebDriverWait(driver, 15)  
+        self.wait = WebDriverWait(driver, 15)
+
     def wait_for_element(self, locator, timeout=15):
         return WebDriverWait(self.driver, timeout).until(
             EC.visibility_of_element_located(locator)
@@ -37,6 +38,21 @@ class BasePage:
         def page_loaded(driver):
             return driver.current_url != 'about:blank'
         return WebDriverWait(self.driver, timeout).until(page_loaded)
+
+    def get_current_url(self):
+        return self.driver.current_url
+
+    def get_window_handles(self):
+        return self.driver.window_handles
+
+    def get_current_window_handle(self):
+        return self.driver.current_window_handle
+
+    def switch_to_window(self, window_handle):
+        self.driver.switch_to.window(window_handle)
+
+    def close_current_window(self):
+        self.driver.close()
 
     def click_element(self, locator):
         element = self.wait_for_element_clickable(locator)
